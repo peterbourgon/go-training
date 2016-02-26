@@ -31,6 +31,7 @@ func get(url string) result {
 	code := 0
 	if err == nil {
 		code = resp.StatusCode
+		resp.Body.Close()
 	}
 	return result{
 		url:  url,
