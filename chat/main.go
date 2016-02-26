@@ -57,13 +57,13 @@ func runServer(addr string) {
 		for {
 			select {
 			case client := <-hello:
-				log.Printf("hello: now %d client(s)", len(clients))
 				clients[client] = struct{}{}
+				log.Printf("hello: now %d client(s)", len(clients))
 
 			case client := <-goodbye:
-				log.Printf("goodbye: now %d client(s)", len(clients))
 				delete(clients, client)
 				close(client)
+				log.Printf("goodbye: now %d client(s)", len(clients))
 
 			case message := <-broadcast:
 				log.Printf("broadcast: to %d client(s)", len(clients))
