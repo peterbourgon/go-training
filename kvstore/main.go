@@ -8,6 +8,12 @@ func main() {
 	println(s.contains("a"))
 	s.delete("a")
 	println(s.contains("a"))
+	s.insert("c", "c")
+	s.insert("3", "x")
+	s.iterate(func(k, v string) error {
+		println("iterate:", k, v)
+		return nil
+	})
 }
 
 type store struct {
@@ -43,4 +49,12 @@ func (s *store) contains(k string) bool {
 
 func (s *store) delete(k string) {
 	delete(s.m, k)
+}
+
+func (s *store) iterate(fn func(k, v string) error) {
+	for k, v := range s.m {
+		if err := fn(k, v); err != nil {
+			return
+		}
+	}
 }
