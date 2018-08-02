@@ -41,6 +41,22 @@ func TestRobot(t *testing.T) {
 	}
 }
 
+func TestRace(t *testing.T) {
+	for i, testcase := range []struct {
+		distance int
+		runners  []runner
+		want     string
+	}{
+		{40, []runner{baby{}}, "a baby"},
+		{50, []runner{baby{}, triathlete{}}, "a triathlete"},
+		{60, []runner{baby{}, triathlete{}}, "a baby"}, // lol
+	} {
+		if want, have := testcase.want, race(testcase.distance, testcase.runners...); want != have {
+			t.Errorf("race %d: want %s, have %s", i+1, want, have)
+		}
+	}
+}
+
 func BenchmarkBaby1M(b *testing.B) {
 	benchmark(b, baby{}, 1)
 }
